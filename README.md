@@ -25,7 +25,7 @@ venv\Scripts\activate
 
 ```
 
-**En Linux/macOS:**
+**En Linux/macOS/WSL:**
 
 ```bash
 python3 -m venv venv
@@ -38,7 +38,7 @@ source venv/bin/activate
 Una vez activado el entorno virtual, instala las librerías necesarias:
 
 ```bash
-pip install fastapi sqlalchemy jinja2 uvicorn python-multipart
+pip install -r requirements.txt
 
 ```
 
@@ -56,6 +56,15 @@ python run.py
 Una vez que el servidor esté corriendo, abre tu navegador y dirígete a:
 
 * **URL:** [http://127.0.0.1:8000](https://www.google.com/search?q=http://127.0.0.1:8000)
+
+### 5. Salir del entorno
+
+Cuando termines de testear y/o trabajar, puedes desactivar el entorno con:
+
+```bash
+deactivate
+
+```
 
 ---
 
