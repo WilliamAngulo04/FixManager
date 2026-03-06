@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Admin - Fix Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #f8f9fa; min-height: 100vh; display: flex; align-items: center; }
+        .register-card { border: none; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .section-title { font-size: 0.8rem; font-weight: bold; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card register-card">
+                    <div class="card-body p-4">
+                        <div class="text-center mb-4">
+                            <h3 class="fw-bold text-primary">FIX MANAGER</h3>
+                            <p class="text-muted">Registro de Administrador</p>
+                        </div>
+
+                        {% if error == 'exists' %}
+                        <div class="alert alert-warning py-2 small">El nombre de usuario ya existe.</div>
+                        {% elif error == 'db' %}
+                        <div class="alert alert-danger py-2 small">Error al guardar. Revisa permisos de carpeta.</div>
+                        {% endif %}
+
+                        <form action="/register" method="post">
+                            <p class="section-title mb-2">Datos Personales</p>
+                            <div class="mb-3">
+                                <input type="text" name="nombre" class="form-control" placeholder="Nombre completo" required>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <input type="text" name="username" class="form-control" placeholder="Usuario" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <input type="password" name="password" class="form-control" placeholder="Contraseña" required>
+                                </div>
+                            </div>
+
+                            <p class="section-title mb-2 mt-2">Datos de la Sucursal</p>
+                            <div class="mb-3">
+                                <input type="text" name="nombre_sucursal" class="form-control" placeholder="Nombre de la Tienda / Sede" required>
+                            </div>
+                            <div class="mb-4">
+                                <input type="text" name="direccion" class="form-control" placeholder="Dirección física" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 fw-bold py-2">Finalizar Registro</button>
+                        </form>
+
+                        <div class="text-center mt-3">
+                            <a href="/login" class="text-decoration-none small text-muted">¿Ya tienes cuenta? Inicia sesión</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

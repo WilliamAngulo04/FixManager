@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Técnicos - Fix Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3>Técnicos de {{ user.sucursal.nombre_sucursal }}</h3>
+            <a href="/" class="btn btn-secondary btn-sm">Volver</a>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm p-3">
+                    <h5 class="fw-bold">Nuevo Técnico</h5>
+                    <form action="/create-technician" method="post">
+                        <div class="mb-2"><input type="text" name="nombre" class="form-control" placeholder="Nombre Completo" required></div>
+                        <div class="mb-2"><input type="text" name="username" class="form-control" placeholder="Usuario" required></div>
+                        <div class="mb-2"><input type="password" name="password" class="form-control" placeholder="Contraseña" required></div>
+                        <button type="submit" class="btn btn-primary w-100">Registrar Técnico</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="table-responsive bg-white rounded shadow-sm p-3">
+                    <table class="table table-hover">
+                        <thead><tr><th>ID</th><th>Nombre</th><th>Usuario</th></tr></thead>
+                        <tbody>
+                            {% for t in tecnicos %}
+                            <tr>
+                                <td>#{{ t.id }}</td>
+                                <td>{{ t.nombre_completo }}</td>
+                                <td>{{ t.username }}</td>
+                            </tr>
+                            {% else %}
+                            <tr><td colspan="3" class="text-center">No hay técnicos registrados.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
