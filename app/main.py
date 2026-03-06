@@ -163,12 +163,35 @@ async def technicians_page(request: Request, db: Session = Depends(get_db)):
     return templates.TemplateResponse("tecnicos.html", {"request": request, "user": user, "tecnicos": tecnicos})
 
 @app.post("/create-technician")
-async def create_technician(username: str = Form(...), password: str = Form(...), nombre: str = Form(...), db: Session = Depends(get_db)):
+async def create_technician(
+    username: str = Form(...), 
+    password: str = Form(...), 
+    nombre: str = Form(...), 
+    db: Session = Depends(get_db)
+):
     admin = db.query(database.User).filter(database.User.id == current_user_id).first()
-    new_tech = database.User(username=username, password=password, nombre_completo=nombre, role="Técnico", sucursal_id=admin.sucursal_id)
-    db.add(new_tech)
-    db.commit()
-    return RedirectResponse(url="/tecnicos", status_code=303)
+    
+    # 1. VALIDACIÓN: Verificar si el nombre de usuario ya existe
+    existe = db.query(database.User).filter(database.User.username == username).first()
+    if existe:
+        # Si ya existe, redirigimos con un mensaje de error (puedes capturarlo en el HTML)
+        return RedirectResponse(url="/tecnicos?error=user_exists", status_code=303)
+
+    try:
+        # 2. Si no existe, procedemos a crear el técnico
+        new_tech = database.User(
+            username=username, 
+            password=password, 
+            nombre_completo=nombre, 
+            role="Técnico", 
+            sucursal_id=admin.sucursal_id
+        )
+        db.add(new_tech)
+        db.commit()
+        return RedirectResponse(url="/tecnicos", status_code=303)
+    except Exception as e:
+        db.rollback() # Siempre haz rollback si algo sale mal
+        return RedirectResponse(url="/tecnicos?error=db_error", status_code=303)
 
 @app.get("/perfil", response_class=HTMLResponse)
 async def profile_page(request: Request, db: Session = Depends(get_db)):
